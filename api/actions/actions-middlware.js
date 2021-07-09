@@ -18,6 +18,18 @@ const validateActionId = (req, res, next) => {
     .catch(next)
 }
 
+const validateActionBody = (req, res, next) => {
+    const { project_id, description, notes } = req.body
+    if(!project_id || !description || description.length > 128 || !notes) {
+        res.status(400).json({
+            message: "missing or invalid fields"
+        })
+    } else {
+        next()
+    }
+}
+
 module.exports = {
-    validateActionId
+    validateActionId, 
+    validateActionBody
 }

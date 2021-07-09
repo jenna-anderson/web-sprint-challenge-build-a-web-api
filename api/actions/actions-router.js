@@ -4,7 +4,7 @@ const Actions = require('./actions-model')
 
 const router = express.Router()
 
-const { validateActionId } = require('./actions-middlware')
+const { validateActionId, validateActionBody } = require('./actions-middlware')
 
 // [GET] fetches array of actions
 router.get('/', (req, res, next) => {
@@ -26,8 +26,14 @@ router.post('/', (req, res) => {
 })
 
 // [PUT] updates action with given id and returns updated action
-router.put('/:id', (req, res) => {
-    console.log('put is great success')
+router.put('/:id', validateActionId, validateActionBody, (req, res, next) => {
+    const { id } = req.params
+    const { project_id, description, notes, completed } = req.body
+    Actions.update(id, {project_id, description, notes, completed})
+    .then(updatedAction => {
+        res.status(200).json(updatedAction)
+    })
+    .catch(next)
 })
 
 // [DELETE] deletes action with given id and returns no response body
