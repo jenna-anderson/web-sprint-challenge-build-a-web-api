@@ -52,14 +52,19 @@ router.delete('/:id', validateProjectId, (req, res, next) => {
     const { id } = req.params
     Projects.remove(id)
     .then(() => {
-        res.json({message: `successfully deleted project with id ${id}`})
+        res.status(200).json({message: `successfully deleted project with id ${id}`})
     })
     .catch(next)
 })
 
 // [GET] fetches array of action belonging to project with given id
-router.get('/:id/actions', (req, res) => {
-    console.log('get actions is great success')
+router.get('/:id/actions', validateProjectId, (req, res, next) => {
+    const { id } = req.params
+    Projects.getProjectActions(id)
+    .then(actions => {
+        res.status(200).json(actions)
+    })
+    .catch(next)
 })
 
 module.exports = router
