@@ -5,8 +5,12 @@ const Projects = require('./projects-model')
 const router = express.Router()
 
 // [GET] fetches array of projects
-router.get('/', (req, res) => {
-    console.log('get is great success')
+router.get('/', (req, res, next) => {
+    Projects.get()
+    .then(projects => {
+        res.status(200).json(projects)
+    })
+    .catch(next)
 })
 
 // [GET] fetches project based on id

@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { errorHandling } = require('./projects/projects-middleware');
 const server = express();
 
 server.use(express.json())
@@ -6,6 +7,8 @@ server.use(express.json())
 const projectsRouter = require('./projects/projects-router')
 
 server.use('/api/projects', projectsRouter)
+
+server.use(errorHandling)
 // Configure your server here
 // Build your actions router in /api/actions/actions-router.js
 // Build your projects router in /api/projects/projects-router.js
