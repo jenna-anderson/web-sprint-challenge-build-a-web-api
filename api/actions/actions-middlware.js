@@ -1,5 +1,4 @@
 // add middlewares here related to actions
-const express = require('express')
 const Actions = require('./actions-model')
 const Projects = require('../projects/projects-model')
 
