@@ -17,6 +17,17 @@ const validateProjectId = (req, res, next) => {
     })
 }
 
+const validateProjectBody = (req, res, next) => {
+    const { name, description } = req.body
+    if(!name || !description){
+        res.status(400).json({
+            message: "please provide both a name and description"
+        })
+    } else {
+        next()
+    }
+}
+
 const errorHandling = (err, req, res, next) => {
     const status = err.status || 500
     res.status(status).json({
@@ -26,5 +37,6 @@ const errorHandling = (err, req, res, next) => {
 
 module.exports = {
     errorHandling,
-    validateProjectId
+    validateProjectId,
+    validateProjectBody
 }

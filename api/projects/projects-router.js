@@ -4,7 +4,7 @@ const Projects = require('./projects-model')
 
 const router = express.Router()
 
-const { validateProjectId } = require('./projects-middleware')
+const { validateProjectId, validateProjectBody } = require('./projects-middleware')
 
 // [GET] fetches array of projects
 router.get('/', (req, res, next) => {
@@ -21,8 +21,13 @@ router.get('/:id', validateProjectId, (req, res, next) => {
 })
 
 // [POST] creates and returns new project
-router.post('/', (req, res) => {
-    console.log('post is great success')
+router.post('/', validateProjectBody, (req, res, next) => {
+    const {name, description, completed } = req.body
+    Projects.insert({name, description, completed})
+    .then(newProject => {
+        res.status(201).json(newProject)
+    })
+    .catch(next)
 })
 
 // [PUT] updates project and returns updated project
