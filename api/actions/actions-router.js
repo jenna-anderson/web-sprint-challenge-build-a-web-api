@@ -4,7 +4,7 @@ const Actions = require('./actions-model')
 
 const router = express.Router()
 
-const { validateActionId, validateActionBody } = require('./actions-middlware')
+const { validateActionId, validateActionBody, validateProjectId } = require('./actions-middlware')
 
 // [GET] fetches array of actions
 router.get('/', (req, res, next) => {
@@ -21,8 +21,13 @@ router.get('/:id', validateActionId, (req, res) => {
 })
 
 // [POST] creates and returns new action
-router.post('/', (req, res) => {
-    console.log('post is great success')
+router.post('/', validateActionBody, validateProjectId, (req, res, next) => {
+    const { project_id, description, notes, completed } = req.body
+    Actions.insert({ project_id, description, notes, completed })
+    .then(newAction => {
+        res.status(201).json(newAction)
+    })
+    .catch(next)
 })
 
 // [PUT] updates action with given id and returns updated action
