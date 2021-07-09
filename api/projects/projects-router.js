@@ -48,8 +48,13 @@ router.put('/:id', validateProjectId, validateProjectBody, (req, res, next) => {
 })
 
 // [DELETE] deletes project and returns no response body
-router.delete('/:id', (req, res) => {
-    console.log('delete is great success')
+router.delete('/:id', validateProjectId, (req, res, next) => {
+    const { id } = req.params
+    Projects.remove(id)
+    .then(() => {
+        res.json({message: `successfully deleted project with id ${id}`})
+    })
+    .catch(next)
 })
 
 // [GET] fetches array of action belonging to project with given id
