@@ -22,7 +22,7 @@ router.get('/:id', validateProjectId, (req, res, next) => {
 
 // [POST] creates and returns new project
 router.post('/', validateProjectBody, (req, res, next) => {
-    const {name, description, completed } = req.body
+    const {name, description, completed} = req.body
     Projects.insert({name, description, completed})
     .then(newProject => {
         res.status(201).json(newProject)
@@ -31,8 +31,20 @@ router.post('/', validateProjectBody, (req, res, next) => {
 })
 
 // [PUT] updates project and returns updated project
-router.put('/:id', (req, res) => {
-    console.log('put is great success')
+router.put('/:id', validateProjectId, validateProjectBody, (req, res, next) => {
+    const { id } = req.params
+    const {name, description, completed} = req.body
+    if("completed" in req.body){
+        Projects.update(id, {name, description, completed})
+        .then(updatedProject => {
+            res.status(200).json(updatedProject)
+        })
+        .catch(next)
+    } else {
+        res.status(400).json({
+            message: "missing name, description, and/or completed fields"
+        })
+    }
 })
 
 // [DELETE] deletes project and returns no response body
