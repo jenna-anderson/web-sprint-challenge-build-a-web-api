@@ -4,6 +4,8 @@ const Actions = require('./actions-model')
 
 const router = express.Router()
 
+const { validateActionId } = require('./actions-middlware')
+
 // [GET] fetches array of actions
 router.get('/', (req, res, next) => {
     Actions.get()
@@ -14,8 +16,8 @@ router.get('/', (req, res, next) => {
 })
 
 // [GET] fetches action with given id
-router.get('/:id', (req, res) => {
-    console.log('get action by id is great success')
+router.get('/:id', validateActionId, (req, res) => {
+    res.status(200).json(req.action)
 })
 
 // [POST] creates and returns new action

@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
 
 // [GET] fetches project based on id
 router.get('/:id', validateProjectId, (req, res, next) => {
-    res.json(req.project)
+    res.status(200).json(req.project)
 })
 
 // [POST] creates and returns new project
