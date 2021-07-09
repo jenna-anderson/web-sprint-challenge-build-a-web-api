@@ -5,8 +5,12 @@ const Actions = require('./actions-model')
 const router = express.Router()
 
 // [GET] fetches array of actions
-router.get('/', (req, res) => {
-    console.log('get is great success')
+router.get('/', (req, res, next) => {
+    Actions.get()
+    .then(actions => {
+        res.status(200).json(actions)
+    })
+    .catch(next)
 })
 
 // [GET] fetches action with given id
