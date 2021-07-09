@@ -4,6 +4,8 @@ const Projects = require('./projects-model')
 
 const router = express.Router()
 
+const { validateProjectId } = require('./projects-middleware')
+
 // [GET] fetches array of projects
 router.get('/', (req, res, next) => {
     Projects.get()
@@ -14,8 +16,8 @@ router.get('/', (req, res, next) => {
 })
 
 // [GET] fetches project based on id
-router.get('/:id', (req, res) => {
-    console.log('get by id is great success')
+router.get('/:id', validateProjectId, (req, res, next) => {
+    res.json(req.project)
 })
 
 // [POST] creates and returns new project
