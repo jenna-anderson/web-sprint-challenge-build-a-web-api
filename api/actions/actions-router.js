@@ -42,8 +42,15 @@ router.put('/:id', validateActionId, validateActionBody, (req, res, next) => {
 })
 
 // [DELETE] deletes action with given id and returns no response body
-router.delete('/:id', (req, res) => {
-    console.log('delete is great success')
+router.delete('/:id', validateActionId, (req, res, next) => {
+    const { id } = req.params
+    Actions.remove(id)
+    .then(() => {
+        res.status(200).json({
+            message: `successfully deleted action with id ${id}`
+        })
+    })
+    .catch(next)
 })
 
 module.exports = router
