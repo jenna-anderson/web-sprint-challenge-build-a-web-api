@@ -157,7 +157,34 @@ We have provided test data for all the resources.
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
 
 1. The core features of Node.js and Express and why they are useful.
+
+Node.js allows developers to write server-side code in javascript. It uses JSON for data interchange between the server and client. Advantages of Node.js include ease of sharing code between client and service since they're in the same language, access to the npm repository, and javascript's async and single-threaded nature increasing processing efficiency and removing complexity.
+
+Express is a framework that sits on top of Node.js that extends Node's functionality and makes it easier to create RESTful APIs and serve static content. Main features include middleware which allows us to operate on the req and res objects, routing which allows us to select the which request handler function executes based on the URL and HTTP request, routers which allows us to break up the app into smaller chunks, helpers such as res.status and res.send, and views which allows us to render HTML on the server.
+
 1. Understand and explain the use of Middleware.
+
+Middleware are functions that are invoked during an HTTP request and have access to the req and res objects. They perform some task and then either return a response or call the next middleware function.
+Types include: 
+- built-in middleware: included with Express but must be invoked (i.e. express.json())
+- third-party middleware: npm modules that can be installed and imported into our apps (i.e. cors)
+- custom middleware: middleware the developer writes themselves that perform specific tasks 
+
 1. The basic principles of the REST architectural style.
+
+REST architectural style is the recommended set of principles in building an API. 
+They include: 
+- client-server architecture: separates UI and data storage concerns
+- stateless architecture: no shared state between requests - requests should be independent of one another, each request should contain all the data needed
+- cacheable: can store the data to be retrieved again later so the http request doesn't have to be made again
+- layered system: there may be operations that happen between the client and server (may not be a direct line of communication)
+- code on demand: resource and code is returned to the client
+- uniform interfaces: each resource is accessible and manageable through a single URL, has self-descriptive messages, and HATEOAS
+
 1. Understand and explain the use of Express Routers.
+
+Express routers allow us to separate routes for each resource. For example in this project we have endpoints for projects and for actions. We used routers to handle these two resources in separate files and then imported into our main server file. This makes our code more modular and uses separation of concerns.
+
 1. Describe tooling used to manually test the correctness of an API.
+
+Tools used to test correctness of an API allow you to make requests to the API controlling for the HTTP method, request body, headers, and receive a response. Tools such as these include Postman and HTTPie.
